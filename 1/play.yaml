@@ -1,0 +1,111 @@
+---
+- name: Install and configure NGINX
+  hosts: all
+  gather_facts: true
+  vars:
+   root_dir: /html
+  tasks:
+   - name: Set become
+     set_fact: ansible_become=true
+     tags: always
+        
+   - name: Install NGINX
+     import_role:
+        name: nginxinc.nginx
+     vars:
+        nginx_branch: stable
+     tags: install
+     
+   - name: Configure NGINX
+     import_role:
+        name: nginxinc.nginx_config
+     vars:
+        nginx_config_upload_ssl_enable: true
+        nginx_config_upload_ssl_crt:
+          - src: ssl/cert.pem
+            dest: /etc/ssl/certs/
+            backup: false
+        nginx_config_upload_ssl_key:
+          - src: ssl/key.pem
+            dest: /etc/ssl/private/
+            backup: false
+        nginx_config_upload_html_enable: true
+        nginx_config_upload_html:
+          - src: index.html
+            dest: '{{ root_dir }}'
+            backup: false
+        nginx_config_http_template_enable: true
+        nginx_config_http_template:
+          - backup: false
+            config:
+              servers:
+                - core:
+                    listen:
+                      - address: 0.0.0.0
+                        port: 80
+                        ssl: false
+                    server_name: _
+                  rewrite:
+                    return:
+                      code: 301
+                      text: https://$host$request_uri
+                - core:
+                    listen:
+                      - address: 0.0.0.0
+                        port: 443
+                        default_server: true
+                        ssl: true                 
+                    server_name: _
+                    root: '{{ root_dir }}'
+                    index: index.html
+                  ssl:
+                    certificate: /etc/ssl/certs/cert.pem
+                    certificate_key: /etc/ssl/private/key.pem
+                    protocols: 
+                      - TLSv1.2
+                      - TLSv1.3
+                    session_timeout: 5m
+                  log:
+                    access:
+                      - path: /var/log/nginx/access.log
+                    error:
+                      - file: /var/log/nginx/error.log
+                        level: info
+     tags: configure
+     
+   - name: Configure SELinux
+     include_role:
+        name: linux-system-roles.selinux
+        apply:
+          tags: configure
+     vars:
+        selinux_fcontexts:
+          - target: '{{ root_dir }}(/.*)?'
+            setype: public_content_t
+            state: present
+        selinux_restore_dirs:
+          - '{{ root_dir }}'
+        selinux_ports:
+          - ports: 
+              - 80
+              - 443
+            proto: tcp
+            setype: http_port_t
+            state: present
+     when: ansible_facts['selinux']['status'] == 'enabled'
+     tags: always
+     
+   - name: Check HTTP access
+     local_action:
+        module: uri
+        url: http://{{inventory_hostname}}
+        status_code: 301
+        follow_redirects: none
+     tags: check
+     
+   - name: Check HTTPS access
+     local_action:
+        module: uri
+        url: https://{{inventory_hostname}}
+        validate_certs: false
+     tags: check

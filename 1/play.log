@@ -1,0 +1,390 @@
+
+PLAY [Install and configure NGINX] *********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [rocky9]
+
+TASK [Set become] **************************************************************
+ok: [rocky9]
+
+TASK [nginxinc.nginx : Validate Ansible/Jinja2 version, Ansible collections, role variables, and supported distributions] ***
+included: /home/egor/devops/1/roles/nginxinc.nginx/tasks/validate/validate.yml for rocky9
+
+TASK [nginxinc.nginx : Verify you are using a supported Ansible version on your Ansible host] ***
+ok: [rocky9 -> localhost] => {
+    "changed": false,
+    "msg": "Ansible 2.17.11 is supported."
+}
+
+TASK [nginxinc.nginx : Extract the version of Jinja2 installed on your Ansible host] ***
+ok: [rocky9 -> localhost]
+
+TASK [nginxinc.nginx : Verify that you are using a supported Jinja2 version on your Ansible host] ***
+ok: [rocky9 -> localhost] => {
+    "changed": false,
+    "msg": "Jinja2 3.1.6 is supported."
+}
+
+TASK [nginxinc.nginx : Extract the list of Ansible collections installed on your Ansible host] ***
+ok: [rocky9 -> localhost]
+
+TASK [nginxinc.nginx : Verify that the 'community.general' Ansible collection is installed on your Ansible host] ***
+ok: [rocky9 -> localhost] => {
+    "changed": false,
+    "msg": "The 'community.general' Ansible collection is installed."
+}
+
+TASK [nginxinc.nginx : Verify that the 'ansible.posix' Ansible collection is installed on your Ansible host] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Verify that the 'community.crypto' Ansible collection is installed on your Ansible host] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Verify that 'nginx_setup' parameter is a valid value] ***
+ok: [rocky9 -> localhost] => {
+    "changed": false,
+    "msg": "The value you used for 'nginx_setup', install, is valid."
+}
+
+TASK [nginxinc.nginx : Verify that 'nginx_branch' parameter is a valid value] ***
+ok: [rocky9 -> localhost] => {
+    "changed": false,
+    "msg": "The value you used for 'nginx_branch', stable, is valid."
+}
+
+TASK [nginxinc.nginx : Verify that 'nginx_install_from' parameter is a valid value] ***
+ok: [rocky9 -> localhost] => {
+    "changed": false,
+    "msg": "The value you used for 'nginx_install_from', nginx_repository is valid."
+}
+
+TASK [nginxinc.nginx : Verify whether you are using a supported NGINX distribution] ***
+ok: [rocky9] => {
+    "changed": false,
+    "msg": "Your distribution, Rocky Linux 9.4 (x86_64), is supported by NGINX Open Source."
+}
+
+TASK [nginxinc.nginx : Verify that you are installing a supported NGINX dynamic module] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Set up prerequisites] ***********************************
+included: /home/egor/devops/1/roles/nginxinc.nginx/tasks/prerequisites/prerequisites.yml for rocky9
+
+TASK [nginxinc.nginx : Install dependencies] ***********************************
+included: /home/egor/devops/1/roles/nginxinc.nginx/tasks/prerequisites/install-dependencies.yml for rocky9
+
+TASK [nginxinc.nginx : (Alpine Linux) Install dependencies] ********************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (Debian/Ubuntu) Install dependencies] *******************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (Amazon Linux/Oracle Linux/RHEL) Install dependencies] ***
+changed: [rocky9]
+
+TASK [nginxinc.nginx : (SLES) Install dependencies] ****************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (FreeBSD) Install dependencies using package(s)] ********
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (FreeBSD) Install dependencies using port(s)] ***********
+skipping: [rocky9] => (item=security/ca_root_nss) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Check if SELinux is enabled] ****************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Configure SELinux] **************************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Set up signing keys] ************************************
+included: /home/egor/devops/1/roles/nginxinc.nginx/tasks/keys/setup-keys.yml for rocky9
+
+TASK [nginxinc.nginx : (Alpine Linux) Set up NGINX signing key URL] ************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (Alpine Linux) Download NGINX signing key] **************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (Debian/Red Hat/SLES OSs) Set up NGINX signing key URL] ***
+ok: [rocky9]
+
+TASK [nginxinc.nginx : (Debian/Ubuntu) Add NGINX signing key] ******************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : (Red Hat/SLES OSs) Add NGINX signing key] ***************
+changed: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX Open Source] ******************************
+included: /home/egor/devops/1/roles/nginxinc.nginx/tasks/opensource/install-oss.yml for rocky9
+
+TASK [nginxinc.nginx : Install NGINX from the official package repository] *****
+included: /home/egor/devops/1/roles/nginxinc.nginx/tasks/opensource/install-redhat.yml for rocky9
+
+TASK [nginxinc.nginx : (AlmaLinux/Amazon Linux/Oracle Linux/RHEL/Rocky Linux) Configure NGINX repository] ***
+changed: [rocky9]
+
+TASK [nginxinc.nginx : (AlmaLinux/Amazon Linux/Oracle Linux/RHEL/Rocky Linux) Force Yum cache refresh] ***
+ok: [rocky9]
+
+TASK [nginxinc.nginx : (AlmaLinux/Amazon Linux/Oracle Linux/RHEL/Rocky Linux) Install NGINX] ***
+changed: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX from the distribution's package repository] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX from source] ******************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX in Unix systems] **************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Set up NGINX Plus license] ******************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX Plus] *************************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX dynamic modules] **************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Remove NGINX Plus license] ******************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Modify systemd parameters] ******************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Trigger handlers if necessary] **************************
+
+RUNNING HANDLER [nginxinc.nginx : (Handler) Start/reload NGINX] ****************
+changed: [rocky9]
+
+RUNNING HANDLER [nginxinc.nginx : (Handler) Check NGINX] ***********************
+ok: [rocky9]
+
+RUNNING HANDLER [nginxinc.nginx : (Handler) Print NGINX error if syntax check fails] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Debug NGINX output] *************************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Configure logrotate for NGINX] **************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install and configure NGINX Plus keepalived HA] *********
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX Amplify] **********************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx : Install NGINX Agent] ************************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Set up SELinux] **********************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Cleanup NGINX config] ****************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Upload NGINX config] *****************************
+included: /home/egor/devops/1/roles/nginxinc.nginx_config/tasks/config/upload-config.yml for rocky9
+
+TASK [nginxinc.nginx_config : Ensure NGINX config snippet directories exist] ***
+skipping: [rocky9] => (item={'src': 'config/snippets/', 'dest': '/etc/nginx/snippets', 'backup': True}) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Upload NGINX config snippet files] ***************
+skipping: [rocky9] => (item={'src': 'config/snippets/', 'dest': '/etc/nginx/snippets', 'backup': True}) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure HTML directory exists] ********************
+changed: [rocky9] => (item={'src': 'index.html', 'dest': '/html', 'backup': False})
+
+TASK [nginxinc.nginx_config : Upload HTML files] *******************************
+changed: [rocky9] => (item={'src': 'index.html', 'dest': '/html', 'backup': False})
+
+TASK [nginxinc.nginx_config : Ensure SSL certificate and key directories exist] ***
+ok: [rocky9] => (item={'src': 'ssl/cert.pem', 'dest': '/etc/ssl/certs/', 'backup': False})
+changed: [rocky9] => (item={'src': 'ssl/key.pem', 'dest': '/etc/ssl/private/', 'backup': False})
+
+TASK [nginxinc.nginx_config : Upload NGINX SSL certificates] *******************
+changed: [rocky9] => (item={'src': 'ssl/cert.pem', 'dest': '/etc/ssl/certs/', 'backup': False})
+
+TASK [nginxinc.nginx_config : Upload NGINX SSL keys] ***************************
+changed: [rocky9] => (item=None)
+changed: [rocky9]
+
+TASK [nginxinc.nginx_config : Create NGINX config] *****************************
+included: /home/egor/devops/1/roles/nginxinc.nginx_config/tasks/config/template-config.yml for rocky9
+
+TASK [nginxinc.nginx_config : Ensure HTML directory exists] ********************
+skipping: [rocky9] => (item={'template_file': 'www/index.html.j2', 'deployment_location': '/usr/share/nginx/html/index.html', 'web_server_name': 'Default', 'backup': True}) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Dynamically generate HTML files] *****************
+skipping: [rocky9] => (item={'template_file': 'www/index.html.j2', 'deployment_location': '/usr/share/nginx/html/index.html', 'web_server_name': 'Default', 'backup': True}) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Configure NGINX modules] *************************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure NGINX main directory exists] **************
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Dynamically generate NGINX main configuration file] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure NGINX client body cache directories exist] ***
+skipping: [rocky9] => (item=config[core][client_body_temp_path][path] undefined) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure NGINX proxy cache directories exist] ******
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure NGINX HTTP directory exists] **************
+ok: [rocky9] => (item=/etc/nginx/conf.d)
+
+TASK [nginxinc.nginx_config : Dynamically generate NGINX HTTP config files] ****
+changed: [rocky9] => (item=/etc/nginx/conf.d/default.conf)
+
+TASK [nginxinc.nginx_config : Dynamically generate NGINX stub status config file] ***
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Dynamically generate NGINX API config file] ******
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure NGINX stream directory exists] ************
+skipping: [rocky9] => (item=/etc/nginx/conf.d/streams) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Dynamically generate NGINX stream config files] ***
+skipping: [rocky9] => (item=/etc/nginx/conf.d/streams/stream_default.conf) 
+skipping: [rocky9]
+
+TASK [nginxinc.nginx_config : Ensure NGINX is running] *************************
+
+RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Check NGINX] ***
+ok: [rocky9]
+
+RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Print NGINX error if syntax check fails] ***
+skipping: [rocky9]
+
+RUNNING HANDLER [nginxinc.nginx_config : (Handler - NGINX Config) Start/reload NGINX] ***
+changed: [rocky9]
+
+TASK [nginxinc.nginx_config : Debug output] ************************************
+skipping: [rocky9]
+
+TASK [Configure SELinux] *******************************************************
+included: linux-system-roles.selinux for rocky9
+
+TASK [linux-system-roles.selinux : Set ansible_facts required by role and install packages] ***
+included: /home/egor/devops/1/roles/linux-system-roles.selinux/tasks/set_facts_packages.yml for rocky9
+
+TASK [linux-system-roles.selinux : Ensure ansible_facts used by role] **********
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Ensure SELinux packages] ********************
+included: /home/egor/devops/1/roles/linux-system-roles.selinux/tasks/ensure_selinux_packages.yml for rocky9
+
+TASK [linux-system-roles.selinux : Check if system is ostree] ******************
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Set flag to indicate system is ostree] ******
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Check if transactional-update exists in /sbin] ***
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Set flag if transactional-update exists] ****
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Install SELinux python2 tools] **************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Install SELinux python3 tools] **************
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Install SELinux python3 tools] **************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Install SELinux tool semanage] **************
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Notify user that reboot is needed to apply changes] ***
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Reboot transactional update systems] ********
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Fail if reboot is needed and not set] *******
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Refresh facts] ******************************
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Set permanent SELinux state if enabled] *****
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Set permanent SELinux state if disabled] ****
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Set selinux_reboot_required] ****************
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Fail if reboot is required] *****************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Warn if SELinux is disabled] ****************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Drop all local modifications] ***************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Purge all SELinux boolean local modifications] ***
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Purge all SELinux file context local modifications] ***
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Purge all SELinux port local modifications] ***
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Purge all SELinux login local modifications] ***
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Set SELinux booleans] ***********************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Set SELinux file contexts] ******************
+changed: [rocky9] => (item={'target': '/html(/.*)?', 'setype': 'public_content_t', 'state': 'present'})
+
+TASK [linux-system-roles.selinux : Set an SELinux label on a port] *************
+ok: [rocky9] => (item={'ports': [80, 443], 'proto': 'tcp', 'setype': 'http_port_t', 'state': 'present'})
+
+TASK [linux-system-roles.selinux : Set linux user to SELinux user mapping] *****
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Get SELinux modules facts] ******************
+ok: [rocky9]
+
+TASK [linux-system-roles.selinux : Load SELinux modules] ***********************
+skipping: [rocky9]
+
+TASK [linux-system-roles.selinux : Restore SELinux labels on filesystem tree] ***
+changed: [rocky9] => (item=/html)
+
+TASK [linux-system-roles.selinux : Restore SELinux labels on filesystem tree in check mode] ***
+skipping: [rocky9] => (item=/html) 
+skipping: [rocky9]
+
+TASK [Check HTTP access] *******************************************************
+ok: [rocky9 -> localhost]
+
+TASK [Check HTTPS access] ******************************************************
+ok: [rocky9 -> localhost]
+
+PLAY RECAP *********************************************************************
+rocky9                     : ok=53   changed=14   unreachable=0    failed=0    skipped=63   rescued=0    ignored=0   
+
