@@ -1,0 +1,16 @@
+name: devops_test
+
+services:
+  web:
+    image: custom_nginx:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - type: bind
+        source: index.html
+        target: /html/index.html
+        read_only: true
+        bind:
+          selinux: z
