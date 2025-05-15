@@ -11,3 +11,8 @@ cd ./2
 docker build -t custom_nginx:latest .
 
 docker compose up -d
+
+# 3
+cd ./3
+
+./script.sh [-h|-s|-l|-p]
