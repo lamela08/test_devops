@@ -16,3 +16,6 @@ docker compose up -d
 cd ./3
 
 ./script.sh [-h|-s|-l|-p]
+
+# 4
+За основу взяты файлы из 2 задания.

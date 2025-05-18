@@ -1,0 +1,49 @@
+Running with gitlab-runner 17.11.1 (96856197)
+  on default_shell HqLHVIzq9, system ID: r_nlnyYuDuUr4t
+Preparing the "shell" executor 00:00
+Using Shell (bash) executor...
+Preparing environment 00:00
+Running on runner1.local.com...
+Getting source from Git repository 00:00
+Fetching changes with git depth set to 20...
+Reinitialized existing Git repository in /home/gitlab-runner/builds/HqLHVIzq9/0/mygroup/docker-cicd/.git/
+Checking out 93510f41 as detached HEAD (ref is main)...
+Skipping Git submodules setup
+Executing "step_script" stage of the job script 00:36
+$ eval $(ssh-agent -s)
+Agent pid 545
+$ echo "${BASE64_SSH_PRIVATE_KEY}" | openssl base64 -d | ssh-add -
+Identity added: (stdin) (egor@ubuntu-desktop)
+$ mkdir -p ~/.ssh
+$ chmod 700 ~/.ssh
+$ ssh-keyscan ${PODMAN_SERVER} >> ~/.ssh/known_hosts
+# 192.168.122.156:22 SSH-2.0-OpenSSH_8.7
+# 192.168.122.156:22 SSH-2.0-OpenSSH_8.7
+# 192.168.122.156:22 SSH-2.0-OpenSSH_8.7
+# 192.168.122.156:22 SSH-2.0-OpenSSH_8.7
+# 192.168.122.156:22 SSH-2.0-OpenSSH_8.7
+$ chmod 644 ~/.ssh/known_hosts
+$ ssh ${REMOTE_USER}@${PODMAN_SERVER}  "sudo podman stop ${CONTAINER} 2>/dev/null;  sudo podman container rm ${CONTAINER} 2>/dev/null;  sudo rm -r /web/ 2>/dev/null; sudo mkdir /web"
+$ scp index.html ${REMOTE_USER}@${PODMAN_SERVER}:~/
+$ ssh ${REMOTE_USER}@${PODMAN_SERVER}  "sudo mv ~/index.html /web/ && sudo podman login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN docker.io && sudo podman run -d -p '80:80' -p '443:443'  --restart unless-stopped  -v '/web/:/html/:Z,ro' --name ${CONTAINER} docker.io/$DOCKER_HUB_USER/${PROJECT}:$VERSION"
+Login Succeeded!
+Trying to pull docker.io/[MASKED]/docker-cicd:0.0.2...
+Getting image source signatures
+Copying blob sha256:d38f2ef2d6f270e6bc87cad48e49a5ec4ebdd2f5d1d4955c4df3780dabbf2393
+Copying blob sha256:4f21ed9ac0c04aa7c64ffd32df025f4545ab9f007d175ce82c920903590daec7
+Copying blob sha256:91311529275035c77ef310fe38a81841c8f3e0a324cf6a68d86b36f48a145d0a
+Copying blob sha256:40a6e9f4e4564bc7213f3983964e76c27e1dc94ceb473f04a8460f5e95e365d1
+Copying blob sha256:254e724d77862dc53abbd3bf0e27f9d2f64293909cdd3d0aad6a8fe5a6680659
+Copying blob sha256:3e544d53ce49d405a41bd59e97d102d77cc5412a717b3bae2295d237ccdfb706
+Copying blob sha256:d3dc5ec71e9d6d1a06a1740efb4a875b28b102166509c8563c90b48f7c5e0bcb
+Copying blob sha256:d135042f642fc6f9090d757bf6ef56e05245cf50e96376171f1a9b2e82adf443
+Copying config sha256:d352f52219f37b7488dc0ad994d36664b3f7766d3ea10ae53cc2c26a431787e8
+Writing manifest to image destination
+0753083dace904ea700e6763da0eaff0a5067c0fa40004d28005661d8f449ad0
+$ curl -k https://${PODMAN_SERVER}
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    45  100    45    0     0   3823      0 --:--:-- --:--:-- --:--:--  4090
+<html><body><h1>It works!</h1></body></html>
+Cleaning up project directory and file based variables 00:00
+Job succeeded

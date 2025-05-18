@@ -1,0 +1,55 @@
+image: docker:24.0.5
+
+variables:
+ PROJECT: docker-cicd
+ VERSION: 0.0.3
+
+stages:
+ - build
+ - deploy
+
+build_main:
+ stage: build
+ before_script:
+  - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
+ script:
+  - docker build -t $DOCKER_HUB_USER/${PROJECT}:$VERSION .
+  - docker push $DOCKER_HUB_USER/${PROJECT}:$VERSION
+ tags:
+  - docker
+
+deploy_test:
+ stage: deploy
+ variables:
+  PODMAN_SERVER: 192.168.122.156
+  REMOTE_USER: user1
+  CONTAINER: ${PROJECT}
+ before_script:
+  - eval $(ssh-agent -s)
+  - echo "${BASE64_SSH_PRIVATE_KEY}" | openssl base64 -d | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan ${PODMAN_SERVER} >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+ script:
+  - >
+    ssh ${REMOTE_USER}@${PODMAN_SERVER} 
+    "sudo podman stop ${CONTAINER} 2>/dev/null; 
+    sudo podman container rm ${CONTAINER} 2>/dev/null; 
+    sudo rm -r /web/ 2>/dev/null;
+    sudo mkdir /web"
+  - scp index.html ${REMOTE_USER}@${PODMAN_SERVER}:~/
+  - >
+    ssh ${REMOTE_USER}@${PODMAN_SERVER} 
+    "sudo mv ~/index.html /web/ &&
+    sudo podman login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN docker.io &&
+    sudo podman run -d
+    -p '80:80' -p '443:443' 
+    --restart unless-stopped 
+    -v '/web/:/html/:Z,ro'
+    --name ${CONTAINER}
+    docker.io/$DOCKER_HUB_USER/${PROJECT}:$VERSION"
+  - curl -kL http://${PODMAN_SERVER}
+ tags:
+  - shell
+
